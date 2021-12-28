@@ -1,5 +1,7 @@
 package com.zurumdev.externalcalls.service;
 
+
+import com.zurumdev.externalcalls.dtos.PublicApis;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +18,20 @@ import java.util.Collections;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CryptoNamesService {
+public class PublicApiService {
 
     @Autowired
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
-    @Value("${crypto.names.base-url}")
-    private String CRYPTO_BASE_URL;
+    @Value("${public.apis.base-url}")
+    private String PUBLIC_BASE_URL;
 
-    public String getCryptoNames() {
+    public PublicApis getPublicApi() {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        return restTemplate.exchange(CRYPTO_BASE_URL, HttpMethod.GET, entity, String.class).getBody();
+        return restTemplate.exchange(PUBLIC_BASE_URL, HttpMethod.GET, entity, PublicApis.class).getBody();
+
     }
 }
